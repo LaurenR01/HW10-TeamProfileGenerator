@@ -1,0 +1,15 @@
+h1{
+    background-color: royalblue;
+    color: white;
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+}
+ul{
+    list-style:none ;
+    border: 5px solid royalblue;
+    padding: 25px;
+}
+.name{
+    font-weight: bold;
+}
