@@ -77,8 +77,27 @@ ul{
 </body>
 </html>`
 
-inquirer
-.prompt([
+const employeeType = () => {
+    inquirer.prompt([
+{type: 'list',
+name: 'add',
+message: 'What kind of team member would you like to add?',
+choices: ['Engineer', 'Intern', 'Manager', new inquirer.Separator(),'Finish Building Team'],
+}])
+.then((answers) => {
+    if (answers.add === 'Engineer'){
+        engineerInfo();
+    }else if (answers.add === 'Intern'){
+        internInfo();
+    } else if (answers.add === 'Manager'){
+        managerInfo();
+    } else if(answers.add === 'Finish Building Team'){
+        buildTeam()
+    };
+})};
+employeeType();
+const managerInfo = () =>{
+    inquirer.prompt([
 {type: 'input',
 name: 'managerName',
 message: 'What is the Managers name?'
@@ -94,18 +113,14 @@ message: 'What is the Managers email?'
 {type: 'input',
 name: 'managerOfficeNumber',
 message: 'What is the Managers office number?'
-},
-{type: 'list',
-name: 'add',
-message: 'What kind of team member would you like to add?',
-choices: ['Engineer', 'Intern', new inquirer.Separator(),'Finish Building Team'],
-},
+},])
+.then (employeeType());
+}
+const engineerInfo = () =>{
+inquirer.prompt([
 {type: 'input',
 name: 'engineerName',
 message: 'What is the Engineers name?',
-when:(answers) => {
-    return answers.add === 'Engineer'
-}
 },
 {type: 'input',
 name: 'engineerID',
@@ -118,21 +133,15 @@ message: 'What is the Engineers email?'
 {type: 'input',
 name: 'engineerGithub',
 message: 'What is the engineers GitHub username?'
-},
-{type: 'list',
-name: 'add',
-message: 'What kind of team member would you like to add?',
-choices: ['Engineer', 'Intern', new inquirer.Separator(),'Finish Building Team'],
-when:(answers) => {
-    return answers.engineerGithub === true
-}
-},
+},])
+.then (employeeType())
+};
+
+const internInfo = () =>{
+    inquirer.prompt([
 {type: 'input',
 name: 'internName',
 message: 'What is the Interns name?',
-when:(answers) => {
-    return answers.add === 'Intern'
-}
 },
 {type: 'input',
 name: 'internID',
@@ -145,19 +154,11 @@ message: 'What is the Interns email?'
 {type: 'input',
 name: 'internSchool',
 message: 'What is the name of the Interns school?'
-},
-{type: 'list',
-name: 'add',
-message: 'What kind of team member would you like to add?',
-choices: ['Engineer', 'Intern', new inquirer.Separator(),'Finish Building Team'],
-when:(answers) => {
-    return answers.internSchool === true
-}
-},
-])
-.then((answers) => {
-    // if(answers.add === 'Finish Building Team'){
-    const contentHTML = generateHTML(answers)
+},])
+.then(employeeType())
+};
+
+const buildTeam = () =>{
+    generateHTML(answers)
     fs.writeFile('../dis/index.html', contentHTML, (err) =>
-    err? console.log(error) : console.log('Team Profile Created'));
-});
+    err? console.log(error) : console.log('Team Profile Created'))};
